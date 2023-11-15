@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Speech Recognition</title>
+</head>
+<body>
+    <h1>Real-time Speech Recognition</h1>
+    <p id="result"></p>
+    <button id="toggleRecognition">Start Recognition</button>
+
+    <script>
+        // Create a new SpeechRecognition instance
+        const recognition = new webkitSpeechRecognition();
+
+        // Set properties for the recognition
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        let isRecognitionActive = false;
+
+        const toggleButton = document.getElementById("toggleRecognition");
+        const resultElement = document.getElementById("result");
+
+        // Event listener for receiving speech recognition results
+        recognition.onresult = (event) => {
+            resultElement.innerHTML = event.results[0][0].transcript;
+        };
+
+        // Event listener for button click to toggle recognition
+        toggleButton.addEventListener("click", () => {
+            if (isRecognitionActive) {
+                // If recognition is active, stop it
+                recognition.stop();
+                toggleButton.textContent = "Start Recognition";
+            } else {
+                // If recognition is not active, start it
+                recognition.start();
+                toggleButton.textContent = "Stop Recognition";
+            }
+            isRecognitionActive = !isRecognitionActive;
+        });
+    </script>
+</body>
+</html>
