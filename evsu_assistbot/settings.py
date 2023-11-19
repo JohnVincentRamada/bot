@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'crispy_tailwind',
     'authentication',
     'tailwind',
-    'speech_recognition',
     'customadmin',
   
 ]
