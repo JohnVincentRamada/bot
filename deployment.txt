@@ -1,0 +1,9 @@
+python3.9 -m venv myenv
+source myenv/bin/activate
+
+erase:
+rm -rf ~/.cache/*
+m -rf /tmp/* /tmp/.*
+
+check storage:
+du -hs /tmp ~/.[!.]* ~/* | sort -h
