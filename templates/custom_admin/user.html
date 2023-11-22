@@ -1,0 +1,103 @@
+{% extends 'custom_admin/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-12 col-lg-12">
+      <div class="card">
+          <div class="card-header">User's Table</div>
+          <div class="table-responsive">
+              <table id="dataTable" class="table align-items-center table-flush table-borderless">
+                  <thead class="thead-light">
+                      <tr>
+                          <th>First Name</th>
+                          <th>Last Name</th>
+                          <th>User Name</th>
+                          <th>Email</th>
+                          <th>Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for user in users %}
+                      <tr>
+                          <td>{{ user.first_name }}</td>
+                          <td>{{ user.last_name }}</td>
+                          <td>{{ user.username }}</td>
+                          <td>{{ user.email }}</td>
+                          <td>
+                              <a href="{% url 'update_user' user.pk %}" class="btn btn-sm btn-primary">Edit</a>
+                              <a id="openModalBtn" data-prim="{{ user.pk }}" class="openModalBtn btn btn-sm btn-danger" data-toggle="modal" data-target="#myModal">Delete</a>
+                          </td>
+                      </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger" id="staticBackdropLabel">WARNING</h5>
+        
+      </div>
+      <div class="modal-body">
+        <div class="bg-white text-dark p-8 w-full max-w-md">
+                          
+          <p class="text-gray-600">are you sure you want to delete this user?</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="closeModalBtn" class="btn" data-bs-dismiss="modal" aria-label="Close">cancel</button>
+        <form action="{% url 'delete_user' %}" method="POST">
+          {% csrf_token %}
+          <input type="text" name="userpk" id="pk" >
+          <button type="submit" class="submit btn btn-danger" data-bs-dismiss="modal">Delete</button>
+        </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<script>
+    $(document).ready(function () {
+        // Get references to modal and buttons
+        const modal = $('#myModal');
+        const openBtn = $('#openModalBtn');
+        const closeBtn = $('#closeModalBtn');
+
+        // Function to open the modal
+        $('.openModalBtn').on('click', function () {
+            const pk = $(this).data('prim');
+            $('#pk').val(pk);
+            modal.modal('show');
+        });
+
+        
+
+        function closeModal() {
+            modal.modal('hide');
+        }
+
+        closeBtn.on('click', closeModal);
+
+        // Close modal if user clicks outside the content
+        $(window).on('click', function (e) {
+            if (e.target === modal[0]) {
+                closeModal();
+            }
+        });
+    });
+</script>
+
+{% endblock %}

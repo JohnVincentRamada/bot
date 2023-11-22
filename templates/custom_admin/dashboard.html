@@ -1,0 +1,110 @@
+{% extends 'custom_admin/base.html' %}
+
+{% block content %}
+
+
+<div class="container">
+  <div class="row mx-auto justify-content-center">
+      <div class="col-12 col-lg-6 col-xl-3">
+          <div class="card mt-3 mx-3"> 
+              <div class="card-content">
+                  <div class="card-body border-light">
+                      <h5 class="text-white mb-0">{{ total_pending }} <span class="float-right"><i class="fa fa-spinner fa-spin"></i></span></h5>
+                      <div class="progress my-3" style="height:3px;">
+                          <div class="progress-bar" style="width: {{ total_pending_percentage }}%"></div>
+                      </div>
+                      <p class="mb-0 text-white small-font">Pending Request</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="col-12 col-lg-6 col-xl-3">
+          <div class="card mt-3 mx-3">
+              <div class="card-content">
+                  <div class="card-body border-light">
+                      <h5 class="text-white mb-0">{{ total_applied }} <span class="float-right"><i class="fa fa-file"></i></span></h5>
+                      <div class="progress my-3" style="height:3px;">
+                          <div class="progress-bar" style="width: {{ total_applied_percentage }}%"></div>
+                      </div>
+                      <p class="mb-0 text-white small-font">Applied Request</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+	
+<div class="row">
+	 <div class="col-12 col-lg-12">
+	   <div class="card">
+	     <div class="card-header">Request for Context
+		  <div class="card-action">
+             <div class="dropdown">
+             <a href="javascript:void();" class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
+              <i class="icon-options"></i>
+             </a>
+              <div class="dropdown-menu dropdown-menu-right">
+              <a class="dropdown-item" href="javascript:void();">Action</a>
+              <a class="dropdown-item" href="javascript:void();">Another action</a>
+              <a class="dropdown-item" href="javascript:void();">Something else here</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="javascript:void();">Separated link</a>
+               </div>
+              </div>
+             </div>
+		 </div>
+        <div class="table-responsive">
+          <table id="dataTable" class="table align-items-center table-flush table-borderless">
+              <thead class="thead-light">
+                  <tr>
+                      <th>Query</th>
+                      <th>Comment</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                  </tr>
+              </thead>
+      
+              <tbody>
+                  {% for request in requests %}
+                  <tr>
+                      <td>{{ request.request }}</td>
+                      <td>{{ request.comment }}</td>
+                      <td>
+                          {% if request.status == 'applied' %}
+                          <span class="badge badge-pill badge-success">applied</span>
+                          {% else %}
+                          <span class="badge badge-pill badge-danger">pending</span>
+                          {% endif %}
+                      </td>
+                      <td>
+                          {% if request.status == 'pending' %}
+                          <a class="btn btn-primary btn-sm" href="{% url 'apply' request.pk %}">Apply</a>
+                          {% endif %}
+                      </td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+      </div>
+  
+	   </div>
+	 </div>
+</div>
+	  
+	
+<div class="overlay toggle-menu"></div>
+		
+		
+    
+    <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+
+	
+
+   
+  </div>
+{% endblock %}
+  
+  
+
